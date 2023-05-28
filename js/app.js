@@ -13,7 +13,12 @@ const contenedorCitas = document.querySelector('#citas');
 
 class Citas{
     constructor(){
-        this.Citas = [];
+        this.citas = [];
+    }
+
+    agregarCita(cita){
+        this.citas = [...this.citas, cita];
+        console.log(this.citas);
     }
 
 }
@@ -28,9 +33,9 @@ class UI{
         //Agregar clase
 
         if (tipo === 'error'){
-            divMensaje.classList.add('alert-danger',);
+            divMensaje.classList.add('alert-danger');
         }else{
-            divMensaje.classList.add('alert-success',);
+            divMensaje.classList.add('alert-success');
         }
 
         //Mensaje de Error
@@ -48,7 +53,7 @@ class UI{
 }
 
 const ui = new UI();
-const administrarCita = new Citas();
+const administrarCitas = new Citas();
 
 
 // Registrar Eventos
@@ -69,7 +74,7 @@ function evenListeners(){
 const citaObj = {
     mascota: '',
     propietario: '',
-    Telefono: '',
+    telefono: '',
     fecha: '',
     hora: '',
     sintomas: '',
@@ -79,7 +84,7 @@ const citaObj = {
 function datosCita(e){
     citaObj [e.target.name] = e.target.value;
 
-    console.log(citaObj);
+    //console.log(citaObj);
 }
 
 //Valida y agrega una nueva cita
@@ -87,14 +92,37 @@ function nuevaCita(e){
     e.preventDefault();
 
     //Extraer la informacion del objeto de citas
-    const {mascota, propietario, Telefono, fecha, hora, sintomas} = citaObj;
+    const {mascota, propietario, telefono, fecha, hora, sintomas} = citaObj;
 
     //Validar
 
-    if (mascota === '' || propietario === '' || Telefono === '' || fecha === '' || hora === '' || sintomas === ''){
+    if (mascota === '' || propietario === '' || telefono === '' || fecha === '' || hora === '' || sintomas === ''){
         ui.imprimirAlerta('Todos los campos son obligatorios', 'error');
 
         return;
     }
-    
+
+    //Generar ID Uunico
+    citaObj.id = Date.now();
+
+    //Creando una nueva cita
+    administrarCitas.agregarCita({...citaObj});
+
+    //Reiniciar el objeto
+    reiniciarObjeto();
+
+    //Reiniciar el formulario
+    formulario.reset();
+
+    //Mostrar el HTML de las citas
+}
+
+function reiniciarObjeto(){
+    citaObj.mascota = '',
+    citaObj.propietario = '',
+    citaObj.telefono = '',
+    citaObj.fecha = '',
+    citaObj.hora = '',
+    citaObj.sintomas = ''
+
 }
