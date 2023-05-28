@@ -37,7 +37,7 @@ const citaObj = {
 function datosCita(e){
     citaObj [e.target.name] = e.target.value;
 
-    //console.log(citaObj);
+    console.log(citaObj);
 
 
 }
